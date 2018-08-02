@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pgy.rentcar.dao.JSPBoard_IDao">
+	<insert id="insert">
+		INSERT INTO JSPBOARD(num, writer, email, subject, password, reg_date, ref, re_step, re_level, readcount, content)
+		VALUES(BOARD_SEQ.NEXTVAL, #{param1}, #{param2}, #{param3}, #{param4}, sysdate, (SELECT MAX(REF) FROM JSPBOARD)+1, 1, 1, 0, #{param5})
+	</insert>
+	
+	<select id="selectAll" resultType="com.pgy.rentcar.dto.JSPBoard_Dto">
+		SELECT num, writer, email, subject, password, reg_date, ref, re_step, re_level, readcount, content
+		FROM JSPBOARD ORDER BY REF DESC, RE_LEVEL ASC, RE_STEP ASC
+	</select>
+	
+	<update id="upreadcnt"> <!-- 조회수증가 -->
+		UPDATE JSPBOARD SET READCOUNT = READCOUNT + 1 WHERE NUM = #{param1}
+	</update>
+	
+	<select id="select" resultType="com.pgy.rentcar.dto.JSPBoard_Dto">
+		SELECT num, writer, email, subject, password, reg_date, ref, re_step, re_level, readcount, content
+		FROM JSPBOARD WHERE NUM = #{param1}
+	</select>
+	
+	<update id="re_level_up"> <!-- 부모글보다 큰 re level 값을 전부 1 증가시킴 -->
+		UPDATE JSPBOARD SET RE_LEVEL = RE_LEVEL + 1 WHERE REF = #{param1} AND RE_LEVEL > #{param2}
+	</update>
+	
+	<insert id="insert_reply"> <!-- 답변글 -->
+		INSERT INTO JSPBOARD VALUES(BOARD_SEQ.NEXTVAL, #{param1}, #{param2}, #{param3}, #{param4}, SYSDATE, #{param5}, #{param6}, #{param7}, 0, #{param8})
+	</insert>
+	
+	<update id="update">
+		UPDATE JSPBOARD SET SUBJECT = #{param1}, CONTENT = #{param2}
+		WHERE NUM = #{param3}
+	</update>
+	
+	<delete id="delete">
+		DELETE FROM JSPBOARD WHERE NUM = #{param1}
+	</delete>
+	
+	<select id="getAllCount" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM JSPBOARD
+	</select>
+</mapper>

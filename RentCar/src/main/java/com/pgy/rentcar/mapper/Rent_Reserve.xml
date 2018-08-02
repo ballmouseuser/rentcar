@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pgy.rentcar.dao.Rent_Reserve_IDao">	
+	<select id="selectAllView" resultType="com.pgy.rentcar.dto.ReserveView">
+		SELECT MEMID, BABYSEAT, DDAY, INSURANCE, NAVIGATION, QTY, RDAY, REGNO, WIFI, IMG, PRICE, NAME FROM RESERVEVIEW
+		WHERE MEMID= #{memid}
+	</select>
+	
+	<delete id="delete">
+		DELETE FROM RENT_RESERVE
+		WHERE REGNO = #{regno}
+	</delete>
+	
+	<select id="selectVO"  resultType="com.pgy.rentcar.dto.Rent_Reserve_Dto">
+		SELECT * FROM RENT_RESERVE
+		WHERE REGNO = #{regno}
+	</select>
+	
+	<update id="update" >
+		UPDATE RENT_RESERVE SET
+			NO = #{no},
+			RDAY = #{rday},
+			DDAY =#{dday},
+			QTY=#{qty},
+			INSURANCE=#{insurance},
+			WIFI=#{wifi},
+			NAVIGATION=#{navigation},
+			BABYSEAT=#{babyseat},
+			MEMID=#{memid}
+		WHERE 
+			REGNO =#{regno}
+	
+	</update>
+	
+	<select id="getCurrval" resultType="int">
+		SELECT RESERVE_SEQ.CURRVAL FROM DUAL 
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO RENT_RESERVE(REGNO,NO,QTY,DDAY,RDAY,INSURANCE,WIFI,NAVIGATION,BABYSEAT,MEMID)
+		VALUES (RESERVE_SEQ.NEXTVAL,#{no},#{qty},#{dday},#{rday},#{insurance},#{wifi},#{navigation},#{babyseat},#{memid})
+	</insert>
+</mapper>

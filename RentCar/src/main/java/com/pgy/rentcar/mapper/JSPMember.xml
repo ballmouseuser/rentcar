@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pgy.rentcar.dao.JSPMember_IDao">
+
+	<insert id="insert">
+		INSERT INTO JSPMEMBER(
+		id, pass, email, tel, age, job,
+		hobby
+		)
+		VALUES
+		(#{id},#{pass},#{email},#{tel},#{age},#{job},#{hobby})
+	</insert>
+
+	<delete id="delete">
+		DELETE FROM JSPMEMBER WHERE ID = #{id}
+	</delete>
+
+	<update id="update">
+		UPDATE JSPMEMBER SET EMAIL=#{email}, TEL=#{tel},
+		HOBBY=#{hobby} WHERE ID = #{id}
+	</update>
+
+	<select id="select"
+		resultType="com.pgy.rentcar.dto.JSPMember_Dto">
+		SELECT id, pass, email, tel, age, job,
+		hobby FROM JSPMEMBER
+		WHERE ID = #{id}
+	</select>
+
+	<select id="selectAll"
+		resultType="com.pgy.rentcar.dto.JSPMember_Dto">
+		SELECT id, pass, email, tel, age, job, hobby FROM JSPMEMBER
+	</select>
+
+	<select id="login" resultType="int">
+		SELECT COUNT(*) FROM JSPMEMBER
+		WHERE ID=#{id} AND PASS=#{pass}
+	</select>
+
+	<select id="getAllCount" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM
+		JSPMEMBER
+	</select>
+
+</mapper>

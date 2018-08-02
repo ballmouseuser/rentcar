@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pgy.rentcar.dao.RentCar_IDao">
+
+	<resultMap type="com.pgy.rentcar.dto.RentCar_Dto" id="result">
+		<result column="NO" property="no" />
+		<result column="NAME" property="name" />
+		<result column="CATEGORY" property="category" />
+		<result column="PRICE" property="price" />
+		<result column="USEPEOPLE" property="usepeople" />
+		<result column="COMPANY" property="company" />
+		<result column="IMG" property="img" />
+		<result column="INFO" property="info" />
+	</resultMap>
+
+	<insert id="insert">
+		INSERT INTO RENTCAR(no, name, category, price,
+		usepeople, company, img, info)
+		VALUES(RENTCAR_SEQ.NEXTVAL, #{name},
+		#{category}, #{price}, #{usepeople}, #{company}, #{img}, #{info})
+	</insert>
+	
+	<select id="selectAll" resultMap="result">
+		SELECT no, name, category, price, usepeople, company, img, info FROM RENTCAR
+	</select>
+	
+	<select id="selectVo" resultType="com.pgy.rentcar.dto.RentCar_Dto">
+		SELECT no, name, category, price, usepeople, company, img, info FROM RENTCAR
+		WHERE NO = #{no}
+	</select>
+	
+	<select id="selectKey" resultMap="result">
+		SELECT no, name, category, price, usepeople, company, img, info FROM RENTCAR
+		WHERE CATEGORY = #{category}
+	</select>
+	
+	<update id="update">
+		UPDATE RENTCAR SET
+		NAME = #{name},
+		CATEGORY = #{category},
+		PRICE = #{price},
+		USEPEOPLE = #{usepeople},
+		COMPANY = #{company},
+		IMG = #{img},
+		INFO = #{info}
+		WHERE NO = #{no}
+	</update>
+	
+	<delete id="delete">
+		DELETE FROM RENTCAR
+		WHERE NO = #{no}
+	</delete>
+	<select id="curraval" resultType="int">
+		SELECT RENTCAR_SEQ.CURRVAL FROM DUAL
+	</select>
+	
+	<select id="login" resultType="int">
+		SELECT COUNT(*) FROM JSPMEMBER
+		WHERE ID=#{id} AND PASS=#{pass}
+	</select>
+	
+	<select id="allcount" resultType="int">
+		SELECT COUNT(*) FROM RENTCAR
+	</select>
+	
+</mapper>
